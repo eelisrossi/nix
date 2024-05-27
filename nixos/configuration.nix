@@ -8,6 +8,8 @@
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
+      ./packages.nix
+      ./modules/bundle.nix
     ];
 
   # Use the systemd-boot EFI boot loader.
@@ -22,29 +24,14 @@
   # Set your time zone.
   time.timeZone = "Europe/Helsinki";
 
+  i18n.defaultLocale = "en_US.UTF-8";
+
   nix.settings.experimental-features = [ "nix-command" "flakes" ]; # Enabling flakes
 
-  # Enable the X11 windowing system.
-  services.xserver = {
+  programs.hyprland = { 
     enable = true;
-    desktopManager = {
-      xterm.enable = false;
-    };
-    
-
-    windowManager.i3 = { 
-      enable = true;
-      extraPackages = with pkgs; [
-        dmenu
-	i3status
-	i3lock
-      ];
-    };
   };
 
-  services.displayManager = { 
-    defaultSession = "none+i3";
-  };
 
   # Configure keymap in X11
   services.xserver.xkb.layout = "fi";
@@ -56,21 +43,6 @@
 
   # Enable touchpad support (enabled default in most desktopManager).
   services.libinput.enable = true;
-
-  # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.users.eelis = {
-    isNormalUser = true;
-    extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
-    packages = with pkgs; [
-      firefox
-    ];
-  };
-# List packages installed in system profile. To search, run: # $ nix search wget
-  environment.systemPackages = with pkgs; [
-    vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-    wget
-    git
-  ];
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
@@ -84,17 +56,6 @@
 
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
-
-  # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
-  # Or disable the firewall altogether.
-  # networking.firewall.enable = false;
-
-  # Copy the NixOS configuration file and link it from the resulting system
-  # (/run/current-system/configuration.nix). This is useful in case you
-  # accidentally delete configuration.nix.
-  # system.copySystemConfiguration = true;
 
   # This option defines the first version of NixOS you have installed on this particular machine,
   # and is used to maintain compatibility with application data (e.g. databases) created on older NixOS versions.
