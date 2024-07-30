@@ -12,29 +12,29 @@
     };
   };
 
-    outputs = { self, nixpkgs, nixpkgs-stable, home-manager, ...}@inputs:
+  outputs = { self, nixpkgs, nixpkgs-stable, home-manager, ...}@inputs:
     
-      let
-        system = "x86_64-linux";
-      in {
+  let
+    system = "x86_64-linux";
+  in {
 
-	# nixos - system hostname
-        nixosConfigurations.nixos = nixpkgs.lib.nixosSystem { 
-          specialArgs = { 
-            pkgs-stable = import nixpkgs-stable { 
-	      inherit system;
-	      config.allowUnfree = true;
-	    };
-	    inherit inputs system;
-          };
-	  modules = [ 
-	    ./nixos/configuration.nix
-  	  ];
+	  # nixos - system hostname
+    nixosConfigurations.nixos = nixpkgs.lib.nixosSystem { 
+      specialArgs = { 
+        pkgs-stable = import nixpkgs-stable { 
+          inherit system;
+          config.allowUnfree = true;
         };
-	
-	homeConfigurations.eelis = home-manager.lib.homeManagerConfiguration { 
-	  pkgs = nixpkgs.legacyPackages.${system};
-	  modules = [ ./home-manager/home.nix ];
-	};
+        inherit inputs system;
       };
-  }
+      modules = [ 
+        ./nixos/configuration.nix
+      ];
+    };
+
+    homeConfigurations.eelis = home-manager.lib.homeManagerConfiguration { 
+      pkgs = nixpkgs.legacyPackages.${system};
+      modules = [ ./home-manager/home.nix ];
+    };
+  };
+}
