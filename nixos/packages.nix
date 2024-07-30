@@ -10,10 +10,7 @@
     alacritty
     firefox
 
-    rofi
-    wofi
     yofi
-    tofi
     mpv
     
     # Coding stuff
@@ -36,6 +33,7 @@
     lux
     mediainfo
     ranger
+    lf
     zip
     openssl
     lazygit   
@@ -60,6 +58,7 @@
     waybar
     dunst
     polkit-kde-agent
+    hyprpaper
 
     # Sound
     pipewire
