@@ -16,6 +16,8 @@
     # Coding stuff
     gnumake
     gcc
+
+    neovim
     
     # CLI utils
     neofetch
